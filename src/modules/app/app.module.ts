@@ -5,6 +5,9 @@ import { UserModule } from '../users/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config/dist';
 import configurations from '../../configurations/index';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { User } from '../users/models/user.model';
+import { AuthModule } from '../auth/auth.module';
+import { TokenModule } from '../token/token.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -23,10 +26,13 @@ import { SequelizeModule } from '@nestjs/sequelize';
       database: configService.get('db_name'),
       synchronize: true,
       autoLoadModels: true,
-      models: [],
+      models: [User],
     })
   }),
-    UserModule],
+    UserModule,
+    AuthModule,
+    TokenModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
